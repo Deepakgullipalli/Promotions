@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Promotions.Core", "Promotio
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Promotions.Business", "Promotions.Business\Promotions.Business.csproj", "{145EA876-3D17-4E9C-A42C-6EE64E82A81F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Promotions.Repositories", "Promotions.Repositories\Promotions.Repositories.csproj", "{FAAEEB15-4DCC-4111-974F-DFD8098D3564}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{145EA876-3D17-4E9C-A42C-6EE64E82A81F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{145EA876-3D17-4E9C-A42C-6EE64E82A81F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{145EA876-3D17-4E9C-A42C-6EE64E82A81F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FAAEEB15-4DCC-4111-974F-DFD8098D3564}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FAAEEB15-4DCC-4111-974F-DFD8098D3564}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FAAEEB15-4DCC-4111-974F-DFD8098D3564}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FAAEEB15-4DCC-4111-974F-DFD8098D3564}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

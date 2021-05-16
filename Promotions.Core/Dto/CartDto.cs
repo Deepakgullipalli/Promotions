@@ -7,15 +7,18 @@ namespace Promotions.Core.Dto
 {
     public class CartDto
     {
-        public List<CartItem> CartItems { get; set; }
+        public List<CartItemDto> CartItems { get; set; }
     }
 
     public class CartItemDto
     {
-        private int _unitPrice;
+        public CartItemDto(Code code)
+        {
+            CartItemCode = code;
+        }
         public Code CartItemCode { get; set; }
         public int Quantity { get; set; }
-        public int UnitPrice { get { if (_unitPrice != 0) { return FetchUnitPrice(); } return _unitPrice; } }
+        public int UnitPrice { get {  return FetchUnitPrice();  } }
         private int FetchUnitPrice()
         {
             switch (CartItemCode)

@@ -7,6 +7,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Promotions.Business.Handlers;
+using Promotions.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,6 +32,7 @@ namespace Promotions
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Promotions API", Version = "v1" });
             });
             services.AddSingleton<ICartPromotionsHandler, CartPromotionsHandler>();
+            services.AddSingleton<IPromotionsRepository, PromotionsRepository>();
             services.AddControllers();
         }
 

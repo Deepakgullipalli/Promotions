@@ -4,8 +4,7 @@ using System.Text;
 
 namespace Promotions.Core.Models
 {
-    public class CartValueResponse
+    public class Promotion
     {
-        public string Message { get; set; }
     }
 }

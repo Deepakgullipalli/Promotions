@@ -6,7 +6,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Promotions.Core\Promotions.Core.csproj" />
-    <ProjectReference Include="..\Promotions.Repositories\Promotions.Repositories.csproj" />
   </ItemGroup>
 
 </Project>
