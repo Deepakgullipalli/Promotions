@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using Promotions.Business.Handlers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,6 +30,7 @@ namespace Promotions
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Promotions API", Version = "v1" });
             });
+            services.AddSingleton<ICartPromotionsHandler, CartPromotionsHandler>();
             services.AddControllers();
         }
 
