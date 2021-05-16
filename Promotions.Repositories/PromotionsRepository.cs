@@ -66,14 +66,15 @@ namespace Promotions.Repositories
                 foreach (var promotion in promotions)
                 {
                     var promotionItem = promotion.PromotionItems.Where(x => x.CartItemCode == item.CartItemCode).FirstOrDefault();
-                    if (promotionItem.Quantity <= item.Quantity)
+                    if (promotionItem?.Quantity <= item.Quantity)
                     {
                         promotion.CanPromotionBeApplied = true;
                         continue;
                     }
                 }
             }
-            return promotions.Where(x => x.CanPromotionBeApplied = true).ToList();
+            var eligiblePromotions = promotions.Where(x => x.CanPromotionBeApplied == true).ToList();
+            return eligiblePromotions;
         }
     }
 }

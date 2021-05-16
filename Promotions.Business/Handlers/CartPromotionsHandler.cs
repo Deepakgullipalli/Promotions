@@ -25,7 +25,7 @@ namespace Promotions.Business.Handlers
 
             var cartDto = MapCartQueryToDto(cart);
             var result = await ProcessEligiblePromotionsOnCart(cartDto);
-            return new CartValueResponse { Message = $"Update Cart Value is {result}" };
+            return new CartValueResponse { Message = $"Updated Cart Value is {result}" };
         }
 
         private async Task<int> ProcessEligiblePromotionsOnCart(CartDto cart)
@@ -43,8 +43,17 @@ namespace Promotions.Business.Handlers
                     if (!IsPromotionSetOnItemCodeSet.Add(item.CartItemCode))
                     {
                         promotion.CanPromotionBeApplied = false;
+                        totalValue = cart.CartValue;
                         break;
                     }
+                }
+                
+                var unmatchedItems = cart.CartItems.Select(x => x.CartItemCode).ToList().Except(promotionItems.Select(y => y.CartItemCode)).ToList();
+                if(!promotionItems.Select(y => y.CartItemCode).ToList().Any( item => unmatchedItems.Contains(item)) && unmatchedItems.Count > 0)
+                {
+                    promotion.CanPromotionBeApplied = false;
+                    totalValue = cart.CartValue;
+                    break;
                 }
                 if (promotion.CanPromotionBeApplied)
                 {
@@ -69,7 +78,9 @@ namespace Promotions.Business.Handlers
             cartDto.CartItems = new List<CartItemDto>();
             foreach (var item in cart.CartItems)
             {
-                cartDto.CartItems.Add(new CartItemDto(item.CartItemCode) { Quantity = item.Quantity });
+                var transformedItem = new CartItemDto(item.CartItemCode) { Quantity = item.Quantity };
+                cartDto.CartItems.Add(transformedItem);
+                cartDto.CartValue += transformedItem.UnitPrice * transformedItem.Quantity;
             }
             return cartDto;
         }

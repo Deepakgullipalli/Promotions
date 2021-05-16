@@ -8,6 +8,7 @@ namespace Promotions.Core.Dto
     public class CartDto
     {
         public List<CartItemDto> CartItems { get; set; }
+        public int CartValue { get; set; }
     }
 
     public class CartItemDto
@@ -28,9 +29,9 @@ namespace Promotions.Core.Dto
                 case Code.B:
                     return 30;
                 case Code.C:
-                    return 50;
+                    return 20;
                 case Code.D:
-                    return 30;
+                    return 15;
                 default:
                     return 0;
             }
