@@ -1,3 +1,4 @@
+using Moq;
 using NUnit.Framework;
 using Promotions.Business.Handlers;
 using Promotions.Controllers;
@@ -11,10 +12,12 @@ namespace Promotions.Tests
     [TestFixture]
     public class Tests
     {
-        private readonly ICartPromotionsHandler _cartPromotionHandler = new CartPromotionsHandler(new PromotionsRepository());
+        private  Mock<ICartPromotionsHandler> _cartPromotionHandlerMock;
         [SetUp]
         public void Setup()
         {
+            _cartPromotionHandlerMock = new Mock<ICartPromotionsHandler>();
+            _cartPromotionHandlerMock.Setup(x => x.FetchCartValue(It.IsAny<CartQuery>())).Returns(Task.FromResult(new CartValueResponse() { Message="50"}));
         }
 
         [Test]
@@ -29,9 +32,9 @@ namespace Promotions.Tests
                 CartItemCode = Code.A,
                 Quantity = 1
             });
-            PromotionsController promotionsController = new PromotionsController(_cartPromotionHandler);
+            PromotionsController promotionsController = new PromotionsController(_cartPromotionHandlerMock.Object);
             var result = await promotionsController.ApplyPromotions(cart);
-            Assert.AreEqual(result, 50);
+            Assert.AreEqual(result.Message, "50");
         }
     }
 }
