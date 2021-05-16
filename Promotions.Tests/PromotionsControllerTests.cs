@@ -2,6 +2,7 @@ using NUnit.Framework;
 using Promotions.Business.Handlers;
 using Promotions.Controllers;
 using Promotions.Core.Models;
+using Promotions.Repositories;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -10,7 +11,7 @@ namespace Promotions.Tests
     [TestFixture]
     public class Tests
     {
-        private readonly ICartPromotionsHandler _cartPromotionHandler = new CartPromotionsHandler();
+        private readonly ICartPromotionsHandler _cartPromotionHandler = new CartPromotionsHandler(new PromotionsRepository());
         [SetUp]
         public void Setup()
         {

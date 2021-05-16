@@ -24,8 +24,43 @@ namespace Promotions.Business.Handlers
             }
 
             var cartDto = MapCartQueryToDto(cart);
-            await _promotionsRepository.FetchAllPromotions();
-            throw new NotImplementedException();
+            var result = await ProcessEligiblePromotionsOnCart(cartDto);
+            return new CartValueResponse { Message = $"Update Cart Value is {result}" };
+        }
+
+        private async Task<int> ProcessEligiblePromotionsOnCart(CartDto cart)
+        {
+            var eligiblePromotions = await _promotionsRepository.FetchEligiblePromotions(cart.CartItems);
+            var orderedMaxDiscountPromotions = eligiblePromotions.OrderByDescending(x => x.DifferenceValue);
+            int totalValue = 0;
+            CartDto leftOverCart = new CartDto();
+            HashSet<Code> IsPromotionSetOnItemCodeSet = new HashSet<Code>();
+            foreach (var promotion in orderedMaxDiscountPromotions)
+            {
+                var promotionItems = promotion.PromotionItems;
+                foreach (var item in promotionItems)
+                {
+                    if (!IsPromotionSetOnItemCodeSet.Add(item.CartItemCode))
+                    {
+                        promotion.CanPromotionBeApplied = false;
+                        break;
+                    }
+                }
+                if (promotion.CanPromotionBeApplied)
+                {
+                    var cartItems = leftOverCart.CartItems ?? cart.CartItems;
+                    foreach (var cartItem in cartItems)
+                    {
+                        var promotional = promotionItems.Where(x => x.CartItemCode == cartItem.CartItemCode).FirstOrDefault();
+                        var actualQty = cartItem.Quantity;
+                        leftOverCart.CartItems.Clear();
+                        leftOverCart.CartItems.Add(new CartItemDto(cartItem.CartItemCode) { Quantity = actualQty - promotional.Quantity });
+                        totalValue += (promotion.PromotionPrice + (actualQty - promotional.Quantity) * cartItem.UnitPrice);
+                    }
+                }
+
+            }
+            return totalValue;
         }
 
         private CartDto MapCartQueryToDto(CartQuery cart)

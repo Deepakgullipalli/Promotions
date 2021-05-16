@@ -1,4 +1,5 @@
-﻿using Promotions.Core.Models;
+﻿using Promotions.Core.Dto;
+using Promotions.Core.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -8,6 +9,6 @@ namespace Promotions.Repositories
 {
     public interface IPromotionsRepository
     {
-        Task<IList<Promotion>> FetchAllPromotions();
+        Task<IList<Promotion>> FetchEligiblePromotions(IList<CartItemDto> cartItems);
     }
 }
